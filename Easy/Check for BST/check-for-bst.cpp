@@ -23,50 +23,26 @@ class Solution
 {
     public:
     //Function to check whether a Binary Tree is BST or not.
-    bool isBST(Node* root) 
-    {
-    if (root==NULL || root->left==NULL and root->right==NULL)
+bool check(Node* root,int mini,int maxi){
+    if (root==NULL)
     {
         return true;
     }
-
-    if (isBST(root->right) and isBST(root->left))
-    {
-        Node* left=root->left;
-        Node* right=root->right;
-        if (left==NULL and right==NULL)
-        {
-            return true;
-        }
-        if (left==NULL)
-        {
-           return root->data < right->data;
-        }
-
-        if (right==NULL)
-        {
-            return root->data >left->data;
-        }
-        
-        while (left->right!=NULL)
-        {
-            left=left->right;
-        }
-
-        while (right->left!=NULL)
-        {
-            right=right->left;
-        }
-
-        if (root->data>left->data and root->data<right->data)
-        {
-            return true;
-        }
-        return false;
-    }
     
-    return false;
+    if (root->data> mini and root->data<maxi)
+    {
+        bool x=check(root->left,mini,root->data);
+        bool y=check(root->right,root->data,maxi);
+        return x&y;
     }
+
+    return false;
+}
+
+bool isBST(Node *root)
+{
+    return (check(root,INT_MIN,INT_MAX));
+}
 };
 
 
